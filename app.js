@@ -12,6 +12,6 @@ const authentification = require('./shared/authentification');
 app.use(authentification.initialize());
 
 app.use('/user', entrypoints.user.routes);
-app.use('/api', authentification.authenticate(), entrypoints.place.routes);
+app.use('/place', authentification.authenticate(), entrypoints.place.routes);
 
 app.listen(port);
