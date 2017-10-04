@@ -11,7 +11,7 @@ mongoose.connect('mongodb://dev:Rudeboy77@ds161890.mlab.com:61890/affinity');
 const authentification = require('./shared/authentification');
 app.use(authentification.initialize());
 
-app.use('/user', entrypoints.user.routes);
+app.use('/auth', entrypoints.auth.routes);
 app.use('/place', authentification.authenticate(), entrypoints.place.routes);
 
 app.listen(port);

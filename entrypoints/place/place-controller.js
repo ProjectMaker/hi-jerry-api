@@ -1,4 +1,4 @@
-const Place = require('./place-model');
+const Place = require('../../shared/models/place-model');
 
 class PlaceController {
 
