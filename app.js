@@ -3,15 +3,14 @@ const mongoose = require('mongoose');
 const entrypoints = require('./entrypoints');
 const app = express();
 const jsonwebtoken = require('jsonwebtoken');
+const passport = require('passport');
+const config = require('./shared/config');
 
-const port = process.env.PORT || 8080;
+mongoose.connect(`mongodb://${config.mongo.user}:${config.mongo.password}@ds161890.mlab.com:61890/affinity`);
+require('./shared/authentification/passport')(passport);
 
-mongoose.connect('mongodb://dev:Rudeboy77@ds161890.mlab.com:61890/affinity');
+app.use(passport.initialize());
 
-const authentification = require('./shared/authentification');
-app.use(authentification.initialize());
+require('./entrypoints')(app, passport);
 
-app.use('/user', entrypoints.user.routes);
-app.use('/api', authentification.authenticate(), entrypoints.place.routes);
-
-app.listen(port);
+app.listen(config.port);

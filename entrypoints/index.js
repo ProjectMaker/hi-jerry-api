@@ -1,11 +1,6 @@
-const UserController = require('./user/user-controller');
+const passport = require('passport');
 
-module.exports = {
-  user: {
-    routes: require('./user/user-routes'),
-    loginRequired: UserController.loginRequired
-  },
-  place: {
-    routes: require('./place/place-routes')
-  }
-};
+module.exports = (app) => {
+  app.use('/auth', require('./auth/auth-routes'));
+  app.use('/place', passport.authenticate('jwt', { session: false }), require('./place/place-routes'));
+}

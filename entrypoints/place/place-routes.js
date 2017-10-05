@@ -5,12 +5,12 @@ const jsonParser = bodyParser.json();
 
 const PlaceController = require('./place-controller');
 
-// Register middleware here
+router.get('/', PlaceController.index);
+router.post('/', jsonParser, PlaceController.post);
+router.put('/', jsonParser, PlaceController.put);
 
-// Register routes here
-router.get('/place', PlaceController.index);
-router.get('/place/:id', PlaceController.getById);
-router.post('/place', jsonParser, PlaceController.post);
-router.put('/place', jsonParser, PlaceController.put);
-router.delete('/place/:id', PlaceController.delete)
+router.get('/:id', PlaceController.getById);
+router.delete('/:id', PlaceController.delete);
+
 module.exports = router;
+
