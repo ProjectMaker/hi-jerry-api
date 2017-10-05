@@ -6,41 +6,41 @@ const userSchema = new mongoose.Schema({
     local: {
       email: {
         type: String,
-        unique: true,
         lowercase: true,
         trim: true,
-        required: true
+        required: authLocalRequired
       },
       hash_password: {
         type: String,
-        required: true
+        required: authLocalRequired
       }
     },
     facebook: {
       email: {
         type: String,
-        unique: true,
         lowercase: true,
         trim: true,
-        required: true
+        required: authFacebookRequired
       },
       id: {
         type: String,
-        required: true,
+        required: authFacebookRequired,
         trim: true
       },
       token: {
         type: String,
-        required: true,
+        required: authFacebookRequired,
         trim: true
       }
     }
   },
-  lastname: {
-    type: String
-  },
-  firstname: {
-    type: String
+  profile: {
+    lastname: {
+      type: String
+    },
+    firstname: {
+      type: String
+    },
   },
   createdAt: {
     type: Date,
@@ -48,8 +48,15 @@ const userSchema = new mongoose.Schema({
   }
 });
 
+function authLocalRequired() {
+  return !(this.authentication && this.authentication.facebook)
+}
+
+function authFacebookRequired() {
+  return !(this.authentication && this.authentication.local)
+}
+
 userSchema.methods.comparePassword = function(password) {
-  console.log('comparePassword', password, this.email);
   return bcrypt.compareSync(password, this.authentication.local.hash_password);
 };
 
