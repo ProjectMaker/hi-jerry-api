@@ -17,6 +17,8 @@ module.exports = function(passport) {
   };
 
   passport.use(new JwtStrategy(jwtOptions, (jwtPayload, next) => {
+    console.log('jwtPayload', jwtPayload)
+    
     next(null, jwtPayload);
   }));
 
@@ -56,10 +58,10 @@ module.exports = function(passport) {
               }
             },
             profile: {
-              firstname: req.body.firstname,
-              lastname: req.body.lastname,
+              name: req.body.name
             }
           });
+          console.log('Username', req.body.name);
           return user.save()
         } else throw new AuthenticateError('register:exists','All ready exists');
       })

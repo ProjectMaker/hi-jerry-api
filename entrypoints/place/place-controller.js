@@ -10,6 +10,7 @@ class PlaceController {
 
   static save(place, res) {
     place.validate((err) => {
+      console.log('save validate', err);
       if (err) {
         const errors = [];
         for (const errorName in err.errors) errors.push({field: errorName, type: err.errors[errorName].properties.type})
@@ -17,6 +18,7 @@ class PlaceController {
       } else place.save()
         .then((result) => { res.json(result); console.log(result); })
         .catch((err) => {
+          console.log('save err', err)
           res.status(500).json({code: err.code, message: err.message});
         })
 
@@ -37,7 +39,7 @@ class PlaceController {
   static put(req, res) {
     console.log('PlaceController, put');
     const place = new Place(req.body);
-    place.isNew = false;
+    //place.isNew = false;
     PlaceController.save(place, res);
   }
 

@@ -9,7 +9,10 @@ class AuthController {
   static createJWToken(email, id) {
     return jwt.sign({ email, id }, JWT_KEY, { expiresIn: '1d' })
   }
+  static getToken() {
 
+  }
+  
   static register(req, res, next) {
     passport.authenticate('signup-local', (err, user, info) => {
       console.log('signup-local');

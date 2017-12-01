@@ -9,14 +9,9 @@ const placeSchema = new mongoose.Schema({
   address: {
     type: Object
   },
-  formattedAddress: {
-    type: String,
-    default: "",
-    trim: true,
-    required: true
-  },
   location: {
-    type: Object
+    type: Object,
+    required: true
   },
   placeId: {
     type: String,
@@ -24,20 +19,18 @@ const placeSchema = new mongoose.Schema({
     trim: true,
     required: true
   },
+  user: {
+    _id: String,
+    name: String,
+  },
   types: {
     type: Array
   },
-  phoneNumber: {
+  openHours: {
+    type: Array
+  },
+  phone: {
     type: String
-  },
-  contexts: {
-    type: Array,
-  },
-  comment: {
-    type: String,
-  },
-  note: {
-    type: Number
   },
   createdAt: {
     type: Date,

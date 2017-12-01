@@ -35,17 +35,15 @@ const userSchema = new mongoose.Schema({
     }
   },
   profile: {
-    lastname: {
+    name: {
       type: String
-    },
-    firstname: {
-      type: String
-    },
+    }
   },
   createdAt: {
     type: Date,
     default: Date.now
-  }
+  },
+  friends: Array
 });
 
 function authLocalRequired() {
