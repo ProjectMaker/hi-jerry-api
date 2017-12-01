@@ -11,6 +11,21 @@ class FriendController {
       })
   }
 
+  static available(req, res) {
+    User.findOne({ _id: req.user.id }, { friends: 1 })
+      .then(user => {
+        let friends = [req.user.id];
+        if (user.friends) user.friends.forEach(friend => friends.push(friend._id));
+        return User.find({ _id: { $nin: friends } }, { _id: 1, 'profile.name': 1})
+      })
+      .then(friends => {
+        friends = friends.map(friend => { return { _id: friend._id, name: friend.profile.name }});
+        return res.json(friends);
+      })
+      .catch((err) => {
+        res.status(500).json({code: err.code, message: err.message});
+      })
+  }
 }
 
 module.exports = FriendController;

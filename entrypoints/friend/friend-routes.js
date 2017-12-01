@@ -6,6 +6,7 @@ const jsonParser = bodyParser.json();
 const FriendController = require('./friend-controller');
 
 router.put('/', jsonParser, FriendController.put);
+router.get('/', FriendController.available);
 
 module.exports = router;
 
