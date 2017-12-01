@@ -6,8 +6,8 @@ const JWT_KEY = require('../../shared/config').jwtKey;
 
 
 class AuthController {
-  static createJWToken(email, id) {
-    return jwt.sign({ email, id }, JWT_KEY, { expiresIn: '1d' })
+  static createJWToken(email, id, name) {
+    return jwt.sign({ email, id, name }, JWT_KEY, { expiresIn: '1d' })
   }
   static getToken() {
 
@@ -34,7 +34,7 @@ class AuthController {
         res.json({code: info.code, message: info.message})
         return false;
       }
-      return res.json({token: AuthController.createJWToken(user.authentication.local.email, user._id)});
+      return res.json({token: AuthController.createJWToken(user.authentication.local.email, user._id, user.profile.name)});
     })(req, res, next);
   }
 
