@@ -11,6 +11,11 @@ const config = require('./shared/config');
 mongoose.connect(`mongodb://${config.mongo.user}:${config.mongo.password}@ds161890.mlab.com:61890/affinity`);
 require('./shared/authentification/passport')(passport);
 
+app.use(function (req, res, next) {
+  console.log('Url', req.url);
+  next();
+});
+
 app.use(passport.initialize());
 app.use(cors());
 require('./entrypoints')(app, passport);

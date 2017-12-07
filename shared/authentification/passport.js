@@ -29,6 +29,7 @@ module.exports = function(passport) {
       session: false
     },
     function(email, password, done) {
+      console.log('signin-local', email, password)
       User.findOne({'authentication.local.email': email})
         .then((user) => {
           if (!user) return done(null, false, { code: 'signin:notfound', message: 'User not found'});

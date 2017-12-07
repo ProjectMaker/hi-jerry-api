@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 
+const User = require('../../shared/models/user-model');
 const JWT_KEY = require('../../shared/config').jwtKey;
 
 
@@ -12,15 +13,26 @@ class AuthController {
   static getToken() {
 
   }
-  
+
+  static checkEmail(req, res) {
+    User.findOne({'authentication.local.email': req.body.email }, { _id: 1})
+      .then(user => {
+        console.log('Auth, checkEmail', user ? true : false);
+        res.json({ exists: user ? true : false })
+      })
+      .catch((err) => {
+        console.log('Auth, checkEmail catch err', err);
+        res.status(500).json({code: err.code, message: err.message});
+      })
+  }
+
   static register(req, res, next) {
     passport.authenticate('signup-local', (err, user, info) => {
-      console.log('signup-local');
       if (err) {
+        console.log('Auth, register passport err', err)
         res.status(500).json({code: err.code, message: err.message})
         return false;
       }
-      console.log('uouououo');
       return res.json(user);
     })(req, res, next);
   }
@@ -28,6 +40,7 @@ class AuthController {
   static signIn(req, res, next) {
     passport.authenticate('signin-local', (err, user, info) => {
       if (err) {
+        console.log('Auth, signIn passport err', err)
         res.status(500).json({code: err.code, message: err.message})
         return false;
       } else if (!user) {

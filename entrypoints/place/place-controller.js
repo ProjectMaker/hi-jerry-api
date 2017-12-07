@@ -3,22 +3,25 @@ const Place = require('../../shared/models/place-model');
 class PlaceController {
 
   static index(req, res) {
-    Place.find({}, (err, places) => {
+    Place.find({ 'user._id': req.user.id }, (err, places) => {
       res.json(places);
     });
   };
 
   static save(place, res) {
     place.validate((err) => {
-      console.log('save validate', err);
       if (err) {
+        console.log('List, save validate err', err);
         const errors = [];
         for (const errorName in err.errors) errors.push({field: errorName, type: err.errors[errorName].properties.type})
         res.status(400).json(errors);
       } else place.save()
-        .then((result) => { res.json(result); console.log(result); })
+        .then((result) => {
+          console.log('List, save done');
+          res.json({ _id: result._id, createdAt: result.createdAt });
+        })
         .catch((err) => {
-          console.log('save err', err)
+          console.log('List, save catch err', err)
           res.status(500).json({code: err.code, message: err.message});
         })
 
@@ -37,14 +40,12 @@ class PlaceController {
   };
 
   static put(req, res) {
-    console.log('PlaceController, put');
     const place = new Place(req.body);
-    //place.isNew = false;
+
     PlaceController.save(place, res);
   }
 
   static delete(req, res) {
-    console.log('PlaceController, delete');
     Place.remove({_id: req.params.id})
       .then((result) => res.status(200).json({_id: req.params.id }))
       .catch(err => res.json({code: err.code, message: err.message}, 500));

@@ -43,7 +43,10 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   },
-  friends: Array
+  friends: Array,
+  friendsRequest: Array,
+  friendsWaiting: Array,
+  friendsApprouv: Array
 });
 
 function authLocalRequired() {

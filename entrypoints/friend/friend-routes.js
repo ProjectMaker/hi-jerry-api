@@ -5,8 +5,11 @@ const jsonParser = bodyParser.json();
 
 const FriendController = require('./friend-controller');
 
-router.put('/', jsonParser, FriendController.put);
-router.get('/', FriendController.available);
+router.put('/approuv', jsonParser, FriendController.approuv);
+router.put('/invit', jsonParser, FriendController.invit);
+router.get('/available', FriendController.available);
+router.get('/', FriendController.list);
+router.get('/transaction', FriendController.transactions);
 
 module.exports = router;
 

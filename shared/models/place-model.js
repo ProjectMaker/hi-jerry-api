@@ -35,7 +35,8 @@ const placeSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now
-  }
+  },
+  experiences: Array
 });
 
 module.exports = mongoose.model("Place", placeSchema);
