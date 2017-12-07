@@ -77,9 +77,25 @@ class FriendController {
       })
   }
 
-  static transactions(req, res) {
-    FriendTransaction.find({ 'target._id': req.user.id})
+  static requestTransactions(req, res) {
+    FriendTransaction.find({ 'target._id': req.user.id, request: true})
       .then(transactions => res.json(transactions))
+      .catch((err) => {
+        res.status(500).json({code: err.code, message: err.message});
+      })
+  }
+
+  static approuvTransactions(req, res) {
+    FriendTransaction.find({ 'target._id': req.user.id, approuv: true})
+      .then(transactions => res.json(transactions))
+      .catch((err) => {
+        res.status(500).json({code: err.code, message: err.message});
+      })
+  }
+
+  static removeTransactions(req, res) {
+    FriendTransaction.remove({ _id: { $in: req.body } })
+      .then(result => res.json({}))
       .catch((err) => {
         res.status(500).json({code: err.code, message: err.message});
       })
